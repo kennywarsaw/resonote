@@ -2,11 +2,11 @@ import React from 'react';
 import { withKnobs, select } from '@storybook/addon-knobs';
 import Button from './Button';
 
-
 export default {
   title: 'Button',
   decorators: [withKnobs],
 };
+
 export const Primary = () => {
   const label = 'Colors';
   const options = {
@@ -18,7 +18,7 @@ export const Primary = () => {
   const groupId = 'GROUP-ID1';
   const value = select(label, options, defaultValue, groupId);
 
-  return <Button color={value}>Hello Button</Button>;
+  return <Button color={value}>Show more</Button>;
 };
 
-export const Secondary = () => <Button secondary>Hello Button</Button>;
+export const Secondary = () => <Button secondary>Hello button</Button>;
