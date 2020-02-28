@@ -6,6 +6,7 @@ import bulbIcon from 'assets/icons/bulb.svg';
 import logoutIcon from 'assets/icons/logout.svg';
 import penIcon from 'assets/icons/pen.svg';
 import twitterIcon from 'assets/icons/twitter.svg';
+import logoIcon from 'assets/icons/logo.svg';
 
 const StyledWrapper = styled.nav`
     position: fixed;
@@ -25,6 +26,7 @@ const StyledLogoLink = styled(NavLink)`
   display: block;
   width: 67px;
   height: 67px;
+  background-image: url(${logoIcon});
   background-repeat: no-repeat;
   background-position: 50% 50%;
   background-size: 80%;
