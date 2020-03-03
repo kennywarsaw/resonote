@@ -98,6 +98,8 @@ Card.propTypes = {
 
 Card.defaultProps = {
   cardType: 'note',
+  twitterName: null,
+  articleUrl: null,
 };
 
 export default Card;
