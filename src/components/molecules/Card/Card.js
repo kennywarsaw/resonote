@@ -8,49 +8,52 @@ import Button from 'components/atoms/Button/Button';
 import LinkIcon from 'assets/icons/link.svg';
 import { connect } from 'react-redux';
 import { removeItem as removeItemAction } from 'actions';
-
+import withContext from 'hoc/withContext';
 
 const StyledWrapper = styled.div`
-    min-height: 380px;
-    box-shadow: 0 10px 30px -10px hsla(0, 0%, 0%, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
-    display: grid;
-    grid-template-rows: 0.25fr 1fr;
+  min-height: 380px;
+  box-shadow: 0 10px 30px -10px hsla(0, 0%, 0%, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  display: grid;
+  grid-template-rows: 0.25fr 1fr;
 `;
 
 const InnerWrapper = styled.div`
-    position: relative;
-    padding: 17px 30px;
-    background-color: ${({ activeColor, theme }) => (activeColor ? theme[activeColor] : 'white')};
+  position: relative;
+  padding: 17px 30px;
+  background-color: ${({ activeColor, theme }) => (activeColor ? theme[activeColor] : 'white')};
 
-    :first-of-type {
-      z-index: 9999;
-    }
+  :first-of-type {
+    z-index: 9999;
+  }
 
-    ${({ flex }) => flex && css`
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+  ${({ flex }) =>
+    flex &&
+    css`
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     `}
 `;
 
 const DateInfo = styled(Paragraph)`
-    font-weight: ${({ theme }) => theme.bold};
-    font-size: ${({ theme }) => theme.fontSize.xs};
+  margin: 0 0 5px;
+  font-weight: ${({ theme }) => theme.bold};
+  font-size: ${({ theme }) => theme.fontSize.xs};
 `;
 
-const StyleHeading = styled(Heading)`
-    margin: 5px 0 0;
+const StyledHeading = styled(Heading)`
+  margin: 5px 0 0;
 `;
 
 const StyledAvatar = styled.img`
   width: 86px;
   height: 86px;
-  border: 5px solid ${({ theme }) => theme.twitter};
-  position: absolute;
+  border: 5px solid ${({ theme }) => theme.twitters};
   border-radius: 50px;
+  position: absolute;
   right: 25px;
   top: 25px;
 `;
@@ -72,32 +75,42 @@ const StyledLinkButton = styled.a`
 class Card extends Component {
   state = {
     redirect: false,
-  }
+  };
 
   handleCardClick = () => this.setState({ redirect: true });
 
   render() {
-    const { id, cardType, title, created, twitterName, articleUrl, content, removeItem } = this.props;
+    const {
+      id,
+      pageContext,
+      title,
+      created,
+      twitterName,
+      articleUrl,
+      content,
+      removeItem,
+    } = this.props;
+    const { redirect } = this.state;
 
-    if (this.state.redirect) {
-      return <Redirect to={`${cardType}/${id}`} />;
+    if (redirect) {
+      return <Redirect to={`${pageContext}/details/${id}`} />;
     }
 
     return (
       <StyledWrapper onClick={this.handleCardClick}>
-        <InnerWrapper activeColor={cardType}>
-          <StyleHeading>
-            {title}
-          </StyleHeading>
+        <InnerWrapper activeColor={pageContext}>
+          <StyledHeading>{title}</StyledHeading>
           <DateInfo>{created}</DateInfo>
-          {cardType === 'twitter' && <StyledAvatar src={`https://avatars.io/twitter/${twitterName}`} />}
-          {cardType === 'article' && <StyledLinkButton href={articleUrl} />}
+          {pageContext === 'twitters' && (
+            <StyledAvatar src={`https://avatars.io/twitter/${twitterName}`} />
+          )}
+          {pageContext === 'articles' && <StyledLinkButton href={articleUrl} />}
         </InnerWrapper>
         <InnerWrapper flex>
-          <Paragraph>
-            {content}
-          </Paragraph>
-          <Button onClick={() => removeItem(cardType, id)} secondary>REMOVE</Button>
+          <Paragraph>{content}</Paragraph>
+          <Button onClick={() => removeItem(pageContext, id)} secondary>
+            REMOVE
+          </Button>
         </InnerWrapper>
       </StyledWrapper>
     );
@@ -105,7 +118,8 @@ class Card extends Component {
 }
 
 Card.propTypes = {
-  cardType: PropTypes.oneOf(['notes', 'twitters', 'articles']),
+  id: PropTypes.number.isRequired,
+  pageContext: PropTypes.oneOf(['notes', 'twitters', 'articles']),
   title: PropTypes.string.isRequired,
   created: PropTypes.string.isRequired,
   twitterName: PropTypes.string,
@@ -115,13 +129,16 @@ Card.propTypes = {
 };
 
 Card.defaultProps = {
-  cardType: 'notes',
+  pageContext: 'notes',
   twitterName: null,
   articleUrl: null,
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   removeItem: (itemType, id) => dispatch(removeItemAction(itemType, id)),
 });
 
-export default connect(null, mapDispatchToProps)(Card);
+export default connect(
+  null,
+  mapDispatchToProps,
+)(withContext(Card));

@@ -1,14 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import GridTemplate from 'templates/GridTemplate';
 import Card from 'components/molecules/Card/Card';
 
 const Articles = ({ articles }) => (
-  <GridTemplate pageType="articles">
+  <GridTemplate>
     {articles.map(({ title, content, articleUrl, created, id }) => (
       <Card
         id={id}
-        cardType="articles"
         title={title}
         content={content}
         articleUrl={articleUrl}
@@ -19,6 +19,25 @@ const Articles = ({ articles }) => (
   </GridTemplate>
 );
 
-const mapStateToProps = ({ articles }) => ({ articles });
+Articles.propTypes = {
+  articles: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      title: PropTypes.string.isRequired,
+      content: PropTypes.string.isRequired,
+      created: PropTypes.string.isRequired,
+      articleUrl: PropTypes.string.isRequired,
+    }),
+  ),
+};
+
+Articles.defaultProps = {
+  articles: [],
+};
+
+const mapStateToProps = state => {
+  const { articles } = state;
+  return { articles };
+};
 
 export default connect(mapStateToProps)(Articles);

@@ -4,7 +4,7 @@ const initialState = {
       id: 1,
       title: 'Hello Roman',
       content:
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
       created: '1 day',
       twitterName: 'hello_roman',
     },
@@ -12,7 +12,7 @@ const initialState = {
       id: 2,
       title: 'Redux guy',
       content:
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
       created: '1 day',
       twitterName: 'dan_abramov',
     },
@@ -20,7 +20,7 @@ const initialState = {
       id: 3,
       title: 'React router stuff',
       content:
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
       created: '5 days',
       twitterName: 'mjackson',
     },
@@ -28,7 +28,7 @@ const initialState = {
       id: 4,
       title: 'Super animacje!',
       content:
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
       created: '10 days',
       twitterName: 'sarah_edo',
     },
@@ -36,36 +36,83 @@ const initialState = {
   articles: [
     {
       id: 1,
-      title: 'Hello Roman',
+      title: 'React on my mind',
       content:
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
-      created: '1 day',
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
       articleUrl: 'https://youtube.com/helloroman',
+      created: '1 day',
+    },
+    {
+      id: 2,
+      title: 'Wish you React',
+      content:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
+      articleUrl: 'https://youtube.com/helloroman',
+      created: '1 day',
+    },
+    {
+      id: 3,
+      title: 'You gave React a bad name',
+      content:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
+      articleUrl: 'https://youtube.com/helloroman',
+      created: '5 days',
+    },
+    {
+      id: 4,
+      title: 'Is it React you looking for?',
+      content:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
+      articleUrl: 'https://youtube.com/helloroman',
+      created: '10 days',
     },
   ],
   notes: [
     {
       id: 1,
-      title: 'Hello Roman',
+      title: 'Wake me up when Vue ends',
       content:
-                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
       created: '1 day',
     },
+    {
+      id: 2,
+      title: 'Como es An Gular?',
+      content:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
+      created: '1 day',
+    },
+    {
+      id: 3,
+      title: 'Du bist Reactish',
+      content:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
+      created: '5 days',
+    },
+    {
+      id: 4,
+      title: 'Reactuj się kto moze!',
+      content:
+        'Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus, tempora quibusdam natus modi tempore esse adipisci, dolore odit animi',
+      created: '10 days',
+    },
   ],
-
 };
 
-// eslint-disable-next-line
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ('REMOVE_ITEM'):
+    case 'ADD_ITEM':
+      return {
+        ...state,
+        [action.payload.itemType]: [...state[action.payload.itemType], action.payload.item],
+      };
+    case 'REMOVE_ITEM':
       return {
         ...state,
         [action.payload.itemType]: [
-          ...state[action.payload.itemType].filter((item) => item.id !== action.payload.id),
+          ...state[action.payload.itemType].filter(item => item.id !== action.payload.id),
         ],
       };
-
     default:
       return state;
   }
