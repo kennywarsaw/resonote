@@ -30,11 +30,6 @@ const StyledHeading = styled(Heading)`
   }
 `;
 
-const StyledParagraph = styled(Paragraph)`
-  margin: 0;
-  font-weight: ${({ theme }) => theme.bold};
-`;
-
 const StyledLink = styled.a`
   display: block;
   font-weight: ${({ theme }) => theme.bold};
@@ -53,14 +48,13 @@ const StyledImage = styled.img`
   border-radius: 50%;
 `;
 
-const DetailsTemplate = ({ pageContext, title, created, content, articleUrl, twitterName }) => (
+const DetailsTemplate = ({ pageContext, title, content, articleUrl, twitterName }) => (
   <UserPageTemplate>
     <StyledWrapper>
       <StyledPageHeader>
         <StyledHeading big as="h1">
           {title}
         </StyledHeading>
-        <StyledParagraph>{created}</StyledParagraph>
       </StyledPageHeader>
       <Paragraph>{content}</Paragraph>
       {pageContext === 'articles' && <StyledLink href={articleUrl}>Open article</StyledLink>}
@@ -77,7 +71,6 @@ const DetailsTemplate = ({ pageContext, title, created, content, articleUrl, twi
 DetailsTemplate.propTypes = {
   pageContext: PropTypes.oneOf(['notes', 'articles', 'twitters']).isRequired,
   title: PropTypes.string,
-  created: PropTypes.string,
   content: PropTypes.string,
   articleUrl: PropTypes.string,
   twitterName: PropTypes.string,
@@ -85,7 +78,6 @@ DetailsTemplate.propTypes = {
 
 DetailsTemplate.defaultProps = {
   title: '',
-  created: '',
   content: '',
   articleUrl: '',
   twitterName: '',
